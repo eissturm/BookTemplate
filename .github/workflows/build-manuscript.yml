@@ -1,0 +1,45 @@
+name: Build Manuscript
+
+on:
+  push:
+    branches:
+      - nightly
+      - alpha
+      - beta
+      - main  # Add other branches as needed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+
+    - name: Install Python dependencies
+      run: |
+        pip install python-docx pyyaml
+
+    
+    - name: Change to Manuscript directory
+      run: cd Manuscript
+
+    - name: Run merge script
+      run: python build.py
+      working-directory: Manuscript
+
+    - name: Rename and move the output file
+      run: |
+        BRANCH_NAME=${GITHUB_REF#refs/heads/}
+        DATE=$(date +%Y-%m-%d)
+        mv "Manuscript/{ your book name }.docx" "Manuscript/{your book name }-${BRANCH_NAME}_$DATE.docx"
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: manuscript-${{ github.ref_name }}
+        path: Manuscript/{ your book name }-${{ github.ref_name }}*.docx

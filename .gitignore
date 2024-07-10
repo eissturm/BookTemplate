@@ -1,0 +1,5 @@
+/publication
+*.zip
+*.DS_Store
+*~$*.docx
+/Stats/*.docx

@@ -1,0 +1,25 @@
+name: Automated Pull Request from working to nightly
+
+on:
+  schedule:
+    # Runs at 10 PM Eastern every day
+    - cron:  '0 18 * * *'
+
+jobs:
+  create_pull_request:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0  # Ensures all history is fetched
+
+    - name: Create Pull Request
+      uses: repo-sync/pull-request@v2
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        pr_title: "Nightly Merge from working to nightly"
+        pr_body: "Auto-generated PR to merge changes from working to nightly."
+        source_branch: "working"
+        destination_branch: "nightly"
+        pr_label: "automerge"  # You can set labels as needed

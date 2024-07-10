@@ -1,0 +1,8 @@
+Files:
+ - MainCharacter1 1.docx
+ - MainCharacter2 1.docx
+ - MainCharacter1 2.docx
+title: { your book name }
+author: { your name }
+output_file: {your book name}.docx
+statement: { PREVIEW - DO NOT DISTRIBUTE }
